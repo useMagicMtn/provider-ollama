@@ -1,0 +1,37 @@
+name: CI
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: provider
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          path: provider
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          repository: ${{ vars.MAGICMTN_SDK_REPOSITORY || format('{0}/MagicMtn', github.repository_owner) }}
+          ref: ${{ vars.MAGICMTN_SDK_REF }}
+          path: MagicMtn
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - name: Use the development SDK checkout
+        run: |
+          mkdir -p .cargo
+          cat > .cargo/config.toml <<'EOF'
+          [patch.crates-io]
+          magicmtn-sdk = { path = "../MagicMtn/sdk/rust/magicmtn-sdk" }
+          magicmtn-provider-framework = { path = "../MagicMtn/sdk/rust/magicmtn-provider-framework" }
+          EOF
+      - run: cargo fmt --check
+      - run: cargo clippy --locked --all-targets --all-features -- -D warnings
+      - run: cargo test --locked
+      - run: cargo test --locked --no-default-features
+      - run: cargo clippy --locked --all-targets --no-default-features -- -D warnings
