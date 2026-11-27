@@ -25,18 +25,18 @@ magic provider install ollama
 magic provider list
 ```
 
-To build an archive for your host, follow the [source build setup](CONTRIBUTING.md#development-setup), then package and install it.
+Source builds use the public SDK revision pinned in [SDK_REVISION](SDK_REVISION). To build an archive for your host, follow the [source build setup](CONTRIBUTING.md#development-setup), then package and install it.
 
 ```sh
 ./package.sh
-magic provider install --file dist/ollama-0.1.0-macos-aarch64.tar.gz
+magic provider install --file dist/ollama-0.1.1-macos-aarch64.tar.gz
 ```
 
-Use the archive filename printed by `package.sh`. Install it on the host that runs the provider. MagicMtn manages the executable after installation.
+Use the archive filename printed by `package.sh`. Install it on the host that runs the provider. MagicMtn manages the executable after installation. The provider uses the SDK’s credential-free protocol v1 and connects directly to your local Ollama instance.
 
 ## Use
 
-Start Ollama if it is not already running (`ollama serve`), download the models you intend to use with `ollama pull`, and check them with `ollama list`. Installing this provider does not download models or register them in MagicMtn.
+Start Ollama if it is not already running (`ollama serve`), download the models you intend to use with `ollama pull`, and check them with `ollama list`.
 
 Register models in MagicMtn with provider `ollama` and the full Ollama model name, including its tag. Put the tag in the model name rather than the separate model version field. Choose a model with tool-call support for agents that execute tools, and an embedding model for embedding requests.
 

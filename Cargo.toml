@@ -1,6 +1,6 @@
 [package]
 name = "magicmtn-provider-ollama"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 license = "Apache-2.0"
 description = "Local Ollama inference provider for MagicMtn"
@@ -12,6 +12,8 @@ include = [
     "src/**",
     "Cargo.toml",
     "Cargo.lock",
+    "SDK_REVISION",
+    "tests/**/*.rs",
     "README.md",
     "CONTRIBUTING.md",
     "AGENTS.md",
@@ -19,6 +21,9 @@ include = [
     "LICENSE",
     ".github/assets/*.svg",
 ]
+
+[package.metadata.magicmtn]
+protocol-version = 1
 
 [[bin]]
 name = "magicmtn-provider-ollama"
@@ -40,5 +45,7 @@ url = "2"
 tokio = { version = "1", optional = true }
 
 [dev-dependencies]
+magicmtn-provider-framework = { version = "0.1.0", features = ["host"] }
+tempfile = "3"
 axum = "0.7.5"
 tokio = { version = "1", features = ["macros", "net", "rt-multi-thread"] }

@@ -1,13 +1,12 @@
 use anyhow::Result;
-use magicmtn_provider_ollama::OllamaProvider;
-use magicmtn_sdk::plugin::Capabilities;
+use magicmtn_provider_ollama::{OllamaProvider, VERSION, capabilities};
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<()> {
     magicmtn_provider_framework::run_inference(
         "ollama",
-        env!("CARGO_PKG_VERSION"),
-        Capabilities::inference(vec!["chat".into(), "embedding".into()]),
+        VERSION,
+        capabilities(),
         OllamaProvider::localhost(),
     )
     .await

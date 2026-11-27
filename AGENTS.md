@@ -4,7 +4,7 @@
 
 This is the Apache-2.0 Ollama inference provider for open-source, self-hosted MagicMtn. Read [CONTRIBUTING.md](CONTRIBUTING.md) for SDK setup, architecture, protocol details, and release verification. Keep the README focused on installation and use.
 
-Copy `.cargo/config.toml.example` to the ignored `.cargo/config.toml` and adjust the SDK paths if necessary. Keep local paths out of source control. Use the loopback test server for automated checks.
+Copy `.cargo/config.toml.example` to the ignored `.cargo/config.toml` and adjust the SDK paths if necessary. Keep local paths out of source control. Use the loopback test server for automated checks. Build against the public SDK revision pinned in `SDK_REVISION` and keep the CI checkout aligned with that pin.
 
 ## Commands
 
@@ -15,6 +15,7 @@ Copy `.cargo/config.toml.example` to the ignored `.cargo/config.toml` and adjust
 - Lint: `cargo clippy --locked --all-targets --all-features -- -D warnings`
 - Library-only lint: `cargo clippy --locked --all-targets --no-default-features -- -D warnings`
 - Package: `./package.sh`
+- Archive compatibility: `cargo test --locked --test sdk_host maintainer_archive_installs_and_dispatches_with_current_sdk -- --ignored` after packaging.
 
 Run relevant checks after changes. Tests bind ephemeral loopback ports and use mock responses. Do not start services or download models for routine checks. Report any live Ollama/MagicMtn validation separately.
 

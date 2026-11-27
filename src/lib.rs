@@ -19,6 +19,12 @@ use url::{Host, Url};
 
 use magicmtn_sdk::{BoxFuture, InferenceBackend, InferenceRequest, InferenceResponse};
 
+/// Capabilities of the credential-free local inference adapter.
+/// Discovery declares task support without contacting Ollama or selecting a model.
+pub fn capabilities() -> magicmtn_sdk::plugin::Capabilities {
+    magicmtn_sdk::plugin::Capabilities::inference(vec!["chat".into(), "embedding".into()])
+}
+
 #[derive(Clone)]
 pub struct OllamaProvider {
     client: Client,
